@@ -5,6 +5,7 @@ Description: What the package does (one paragraph).
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 License: MIT + file LICENSE
 Depends: tsdbr
+Imports: checkr
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true

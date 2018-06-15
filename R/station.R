@@ -1,0 +1,11 @@
+#' Add Station
+#'
+#' @inheritParams tsdbr::ts_add_stations
+#' @export
+#' @return The imported station data.
+#' @export
+ts_add_stations <- function(stations, file = getOption("tsdbr.file", "tscbhdbr.sqlite")) {
+  check_data(stations, values = list(Period = c("year", "month", "day")))
+
+  tsdbr::ts_add_stations(stations, file = file)
+}
