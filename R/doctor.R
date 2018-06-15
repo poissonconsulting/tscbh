@@ -7,7 +7,11 @@ ts_doctor_db <- function(check_limits = TRUE,
                          check_period = TRUE,
                          check_gaps = FALSE,
                          fix = FALSE, 
-                         file = getOption("tsdbr.file", "tscdh.db")) {
+                         file = getOption("tsdbr.file", "tscbh.db")) {
+  
+  warning("need to check no minute or second periods")
+  warning("need to check summations of time series")
+  
   tsdbr::ts_doctor_db(check_limits = check_limits, 
                       check_period = check_period, 
                       check_gaps = check_gaps,
