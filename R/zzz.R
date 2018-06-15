@@ -1,4 +1,4 @@
 .onLoad <- function(libname, pkgname) {
-  options(tsdbr.file = "tscbhdbr.sqlite")
+  options(tsdbr.file = "tscbh.sqlite")
   invisible()
 }
