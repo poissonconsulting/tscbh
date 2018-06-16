@@ -25,7 +25,7 @@ process_meta <- function(ele, utc_offset) {
   ele
 }
 
-process_data <- function(ele) {
+process_data <- function(ele, utc_offset) {
   x <- ele$data
   
   x <- strsplit(x, " ")
@@ -41,7 +41,9 @@ process_data <- function(ele) {
   
   colnames(x) <- c("DateTime", "Observed", "Status_BCH")
   
-  x$DateTime <- lubridate::ymd_hms(as.character(x$DateTime), quiet = TRUE, tz = "Etc/GMT+8")
+  x$DateTime <- as.character(x$DateTime)
+  x$DateTime <- as.POSIXct(x$DateTime, tz = ts_utc_offset_to_tz(utc_offset),
+                           format = "%Y%m%d%H%M%S")
   x$Observed <- as.double(as.character(x$Observed))
   x$Status_BCH <- as.integer(as.character(x$Status_BCH))
   
@@ -101,7 +103,7 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   }
   
   ls <- lapply(ls, process_meta, utc_offset = utc_offset)
-  ls <- lapply(ls, process_data)
+  ls <- lapply(ls, process_data, utc_offset = utc_offset)
   ls <- lapply(ls, merge_meta_data)
   
   data <- do.call("rbind", ls)
