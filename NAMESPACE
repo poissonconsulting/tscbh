@@ -2,6 +2,7 @@
 
 export(ts_add_data)
 export(ts_add_stations)
+export(ts_create_db)
 export(ts_doctor_db)
 export(ts_get_data)
 export(ts_read_brd)

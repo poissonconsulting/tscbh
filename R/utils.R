@@ -1,3 +1,6 @@
+in_commas <- function(x) {
+  paste0("IN ('", paste0(x, collapse = "','"), "')")
+}
 
 punctuate <- function(x, qualifier = "or") {
   check_string(qualifier)
