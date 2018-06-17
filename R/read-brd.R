@@ -21,10 +21,19 @@ ts_read_brd <- function(file = "brd.csv", utc_offset = -8L) {
     BRX_FLOW_AVG = 1
   ), x_name = file)
   
-  data <- data[c("TIME", "BRD_FLOWS_AVG", "BRD_QSPILL_AVG", "BRX_FLOW_AVG")]
+  brd <- data[c("TIME", "BRD_FLOWS_AVG")]
+  brs <- data[c("TIME", "BRD_QSPILL_AVG")]
+  brx <- data[c("TIME", "BRX_FLOW_AVG")]
+  rm(data)
+  colnames(brd) <- c("TIME", "Observed")
+  colnames(brs) <- c("TIME", "Observed")
+  colnames(brx) <- c("TIME", "Observed")
+  brd$Station <- "BRD_FLOWS_AVG"
+  brs$Station <- "BRD_QSPILL_AVG"
+  brx$Station <- "BRX_FLOW_AVG"
   
-  data <- tidyr::gather(data, "Station", "Observed",  
-                        -tidyselect::matches("TIME"))
+  data <- rbind(brd, brs, brx, stringsAsFactors = FALSE)
+  rm(brd, brs, brx)
 
   data$DateTime <- lubridate::parse_date_time(
     data$TIME, c("YmdHM", "YmdHMS", "dmYHM", "dmYHMS"), 
