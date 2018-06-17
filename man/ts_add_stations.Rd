@@ -8,8 +8,8 @@ ts_add_stations(stations, file = getOption("tsdbr.file", "tscbh.sqlite"))
 }
 \arguments{
 \item{stations}{A data frame of stations with columns Station, Parameter,
-Period. The optional columns are
-LowerLimit, UpperLimit, Longitude, Latitude, Elevation, Organization , SiteName, StationID and Comments.}
+Period and Site. The optional columns are
+LowerLimit, UpperLimit, Elevation, StationName and Comments.}
 
 \item{file}{A string of the name of the database file.}
 }
