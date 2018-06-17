@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^README\.Rmd$
+^\.travis\.yml$
+^codecov\.yml$
+^CODE_OF_CONDUCT\.md$
