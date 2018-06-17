@@ -4,7 +4,7 @@
 #' @return A data frame of the imported parameters.
 #' @export
 ts_add_data <- function(data, resolution = "abort",
-                        file = getOption("tsdbr.file", "tscbh.sqlite")) {
+                        file = getOption("tsdbr.file", "ts.db")) {
   
   warning("need to do summations to fill in other ones....")
   tsdbr::ts_add_data(data = data,

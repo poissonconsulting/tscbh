@@ -4,7 +4,7 @@
 \alias{ts_add_stations}
 \title{Add Station}
 \usage{
-ts_add_stations(stations, file = getOption("tsdbr.file", "tscbh.sqlite"))
+ts_add_stations(stations, file = getOption("tsdbr.file", "ts.db"))
 }
 \arguments{
 \item{stations}{A data frame of stations with columns Station, Parameter,

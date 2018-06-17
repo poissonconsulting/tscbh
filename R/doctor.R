@@ -7,7 +7,7 @@ ts_doctor_db <- function(check_limits = TRUE,
                          check_period = TRUE,
                          check_gaps = FALSE,
                          fix = FALSE, 
-                         file = getOption("tsdbr.file", "tscbh.db")) {
+                         file = getOption("tsdbr.file", "ts.db")) {
   
   warning("need to check no minute or second periods")
   warning("need to check summations of time series")
@@ -19,7 +19,8 @@ ts_doctor_db <- function(check_limits = TRUE,
             length(unique(stations$Station)), " stations",
             " with periods less than an hour")
     if(fix) {
-      warning("fix periods not yet implemented")
+      conn <- ts_connect_db(file = file)
+      
     }
   }
   

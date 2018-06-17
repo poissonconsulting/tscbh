@@ -5,7 +5,7 @@
 \title{Doctor Database}
 \usage{
 ts_doctor_db(check_limits = TRUE, check_period = TRUE, check_gaps = FALSE,
-  fix = FALSE, file = getOption("tsdbr.file", "tscbh.db"))
+  fix = FALSE, file = getOption("tsdbr.file", "ts.db"))
 }
 \arguments{
 \item{check_limits}{A flag indicating whether to check if corrected values outside the lower and upper limits are coded as erroneous.}

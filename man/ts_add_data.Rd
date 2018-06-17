@@ -5,7 +5,7 @@
 \title{Add Data}
 \usage{
 ts_add_data(data, resolution = "abort", file = getOption("tsdbr.file",
-  "tscbh.sqlite"))
+  "ts.db"))
 }
 \arguments{
 \item{data}{A data frame of data with columns Station, DateTime, Recorded.
