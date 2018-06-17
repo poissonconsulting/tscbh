@@ -12,6 +12,17 @@ ts_doctor_db <- function(check_limits = TRUE,
   warning("need to check no minute or second periods")
   warning("need to check summations of time series")
   
+  stations <- ts_get_stations(file = file)
+  stations <- stations[stations$Period %in% c("minute", "second"),]
+  if(nrow(stations)) {
+    message("there are ", 
+            length(unique(stations$Station)), " stations",
+            " with periods less than an hour")
+    if(fix) {
+      warning("fix periods not yet implemented")
+    }
+  }
+  
   tsdbr::ts_doctor_db(check_limits = check_limits, 
                       check_period = check_period, 
                       check_gaps = check_gaps,
