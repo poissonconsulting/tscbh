@@ -60,15 +60,14 @@ doctor_triad <- function(triad, conn) {
 #' @export
 ts_doctor_db <- function(conn = getOption("tsdbr.conn", NULL)) {
   
-  flag <- TRUE
-  # tsdbr::ts_doctor_db(check_limits = TRUE, 
-  #                     check_period = TRUE, 
-  #                     check_gaps = TRUE,
-  #                     fix = TRUE, 
-  #                     conn = conn)
+  flag <- tsdbr::ts_doctor_db(check_limits = TRUE, 
+                      check_period = TRUE,
+                      check_gaps = TRUE,
+                      fix = TRUE,
+                      conn = conn)
   
   if(!flag) {
-    warning("did not check triads as previous checks failed!")
+    warning("fixes failed (triads unchecked)!")
     return(FALSE)
   }
   
