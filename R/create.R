@@ -18,9 +18,9 @@ ts_create_db <- function (file) {
       Child != Parent2 AND
       Parent1 != Parent2
     ),
-    FOREIGN KEY (Child) REFERENCES Station (Station),
-    FOREIGN KEY (Parent1) REFERENCES Station (Station),
-    FOREIGN KEY (Parent2) REFERENCES Station (Station)
+    FOREIGN KEY (Child) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Parent1) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (Parent2) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE
     );")
   conn
 }
