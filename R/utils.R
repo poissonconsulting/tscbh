@@ -1,3 +1,13 @@
+format_triad <- function(triad) {
+  check_vector(triad, "", length = 3, unique = TRUE)
+  paste(triad[1], "=", triad[2], "+", triad[3])
+}
+
+add <- function(data, table, conn) {
+  DBI::dbWriteTable(conn, table, data, append = TRUE)
+  invisible(data)
+}
+
 in_commas <- function(x) {
   paste0("IN ('", paste0(x, collapse = "','"), "')")
 }

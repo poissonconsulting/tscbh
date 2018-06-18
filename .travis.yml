@@ -1,10 +1,13 @@
 language: R
-sudo: false
 cache: packages
+sudo: required
+
+r_packages:
+  - covr
 
 after_success:
-    - Rscript -e 'covr::codecov()'
-    
+  - Rscript -e 'covr::codecov()'
+
 notifications:
   email: false
   slack:
@@ -12,3 +15,4 @@ notifications:
       - poissonconsulting:BKjfn7jsVh8zXTu2rq7BEQEb
     on_success: change
     on_failure: always
+

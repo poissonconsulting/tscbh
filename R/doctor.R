@@ -1,27 +1,34 @@
-doctor_triad <- function(triad, span, fix, conn) {
-  stations <- ts_get_stations(conn = conn)
-  stations <- stations[stations$Station %in% triad,]
-  if(nrow(stations) != 3L) {
-    warning("missing triad: ", punctuate(triad, "and"))
-    return(FALSE)
-  }
-  stopifnot(all(stations$Period == "hour"))
+doctor_triad <- function(triad, conn) {
+  triad <- c(triad$Child, triad$Parent1, triad$Parent2)
+  
+  span <- DBI::dbGetQuery(conn, paste0(
+    "SELECT Station, MIN(DateTimeData) AS Start, MAX(DateTimeData) AS End
+    FROM Data
+    WHERE Station ", in_commas(triad),"
+    GROUP BY Station"))
+
+  span$Start <- as.POSIXct(span$Start, tz = "Etc/GMT+8")
+  span$End <- as.POSIXct(span$End, tz = "Etc/GMT+8")
+
   span <- span[span$Station %in% triad[2:3],]
+  if(!nrow(span)) {
+    message("no parent data for triad ", format_triad(triad), call. = FALSE)
+    return(TRUE)
+  }
   start <- min(span$Start)
   end <- max(span$End)
   
   data <- ts_get_data(stations = triad, 
                       start_date = lubridate::date(start), 
                       end_date = lubridate::date(end) + 1,
-                      period = "second",
+                      period = "hour",
+                      fill = TRUE,
                       status = "erroneous",
                       conn = conn)
   
   data <- data[c("Station", "DateTime", "Recorded", "Corrected", "Status")]
   
   data <- data[data$DateTime >= start & data$DateTime <= end,]
-  
-  print(head(data))
   
   triad1 <- data[data$Station == triad[1],]
   triad2 <- data[data$Station == triad[2],]
@@ -31,11 +38,11 @@ doctor_triad <- function(triad, span, fix, conn) {
   triad1 <- triad1[order(triad1$DateTime),]
   triad2 <- triad2[order(triad2$DateTime),]
   triad3 <- triad3[order(triad3$DateTime),]
-
+  
   na2 <- is.na(triad2$Corrected) & is.na(triad3$Corrected)
   na0 <- !is.na(triad2$Corrected) & !is.na(triad3$Corrected)
   na1 <- !na0 & !na2
-
+  
   triad1$Corrected[na2] <- triad2$Corrected[na2] + triad3$Corrected[na2]
   is.na(triad1$Corrected[na1]) <- TRUE  
   triad1$Status <- pmax(triad1$Status, triad2$Status, triad3$Status)
@@ -64,20 +71,11 @@ ts_doctor_db <- function(conn = getOption("tsdbr.conn", NULL)) {
     return(FALSE)
   }
   
-  span <- ts_get_table("DataSpan", conn = conn)
-  span$Start <- as.POSIXct(span$Start, tz = "Etc/GMT+8")
-  span$End <- as.POSIXct(span$End, tz = "Etc/GMT+8")
+  triads <- ts_get_table("Triad", conn = conn)
+  triads <- triads[order(triads$Triad),]
   
-  triads <- list()
-  triads <- c(list(c("DDM_SPOG", "DDM_SPOG1", "DDM_SPOG2")))
-  # triads <- c(list(c("DDM_LLOG", "DDM_LLOG1", "DDM_LLOG2")))
-  # triads <- c(list(c("DDM", "DDM_LLOG", "DDM_SPOG")))
-  # triads <- c(list(c("REV", "REVTB", "REVS")))
-  # triads <- c(list(c("MCA", "MCATB", "MCAS")))
-  # triads <- c(list(c("HLK_ALH", "HLK", "ALK")))
-  # triads <- c(list(c("BRD", "BRDTB", "BRDS")))
-  # triads <- c(list(c("BRD_BRX", "BRD", "BRX")))
+  triads <- split(triads, triads$Triad)
   
-  triads <- vapply(triads, doctor_triad, TRUE, span = span, fix = fix, conn = conn)
+  triads <- vapply(triads, doctor_triad, TRUE, conn = conn)
   all(triads)
 }

@@ -9,6 +9,7 @@ License: MIT + file LICENSE
 Depends: 
     tsdbr (>= 0.0.0.9008)
 Imports: 
+    DBI,
     checkr (>= 0.2.0.9004),
     lubridate
 Additional_Repositories: http://poissonconsulting.github.io/drat
