@@ -7,9 +7,9 @@ Description: Populates, maintains and queries an
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 License: MIT + file LICENSE
 Depends: 
-    tsdbr (>= 0.0.0.9005)
+    tsdbr (>= 0.0.0.9008)
 Imports: 
-    checkr,
+    checkr (>= 0.2.0.9004),
     lubridate
 Additional_Repositories: http://poissonconsulting.github.io/drat
 Encoding: UTF-8

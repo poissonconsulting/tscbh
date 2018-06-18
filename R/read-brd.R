@@ -25,9 +25,9 @@ ts_read_brd <- function(file = "brd.csv", utc_offset = -8L) {
   brs <- data[c("TIME", "BRD_QSPILL_AVG")]
   brx <- data[c("TIME", "BRX_FLOW_AVG")]
   rm(data)
-  colnames(brd) <- c("TIME", "Observed")
-  colnames(brs) <- c("TIME", "Observed")
-  colnames(brx) <- c("TIME", "Observed")
+  colnames(brd) <- c("TIME", "Recorded")
+  colnames(brs) <- c("TIME", "Recorded")
+  colnames(brx) <- c("TIME", "Recorded")
   brd$Station <- "BRD_FLOWS_AVG"
   brs$Station <- "BRD_QSPILL_AVG"
   brx$Station <- "BRX_FLOW_AVG"
@@ -41,11 +41,11 @@ ts_read_brd <- function(file = "brd.csv", utc_offset = -8L) {
 
   data$TIME <- NULL
   
-  data$Observed <- data$Observed * 0.028316847
+  data$Recorded <- data$Recorded * 0.028316847
   
   data$Status <- ordered("reasonable", c("reasonable", "questionable", "erroneous"))
 
-  data <- data[c("Station", "DateTime", "Observed", "Status")]
+  data <- data[c("Station", "DateTime", "Recorded", "Status")]
 
   data <- data[order(data$Station, data$DateTime), ]
   rownames(data) <- NULL

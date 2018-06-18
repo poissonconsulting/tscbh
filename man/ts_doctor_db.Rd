@@ -4,19 +4,10 @@
 \alias{ts_doctor_db}
 \title{Doctor Database}
 \usage{
-ts_doctor_db(check_limits = TRUE, check_period = TRUE, check_gaps = FALSE,
-  fix = FALSE, file = getOption("tsdbr.file", "ts.db"))
+ts_doctor_db(conn = getOption("tsdbr.conn", NULL))
 }
 \arguments{
-\item{check_limits}{A flag indicating whether to check if corrected values outside the lower and upper limits are coded as erroneous.}
-
-\item{check_period}{A flag indicating whether to check if the periods are valid.}
-
-\item{check_gaps}{A flag indicating whether to check if there are any gaps in the data given the period.}
-
-\item{fix}{A flag indicating whether to fix any problems}
-
-\item{file}{A string of the name of the database file.}
+\item{conn}{An object of class SQLiteConnection.}
 }
 \value{
 A flag indicating whether or not the database passed the checks (or was fixed)

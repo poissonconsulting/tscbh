@@ -4,8 +4,8 @@
 \alias{ts_add_data}
 \title{Add Data}
 \usage{
-ts_add_data(data, resolution = "abort", file = getOption("tsdbr.file",
-  "ts.db"))
+ts_add_data(data, resolution = "abort", conn = getOption("tsdbr.conn",
+  NULL))
 }
 \arguments{
 \item{data}{A data frame of data with columns Station, DateTime, Recorded.
@@ -14,7 +14,7 @@ Additional optional columns include Corrected, Status, Comments.}
 \item{resolution}{A string of the action to take with regard to existing values.
 Options are 'abort', 'ignore' or 'replace'.}
 
-\item{file}{A string of the name of the database file.}
+\item{conn}{An object of class SQLiteConnection.}
 }
 \value{
 A data frame of the imported parameters.

@@ -4,14 +4,14 @@
 \alias{ts_create_db}
 \title{Create Time-Series Database}
 \usage{
-ts_create_db(file = getOption("tsdbr.file", "ts.db"), utc_offset = 0L)
+ts_create_db(file)
 }
 \arguments{
 \item{file}{A string of the name of the database file.}
-
-\item{utc_offset}{A integer of the utc offset which must lie between -12 and 14.}
+}
+\value{
+A connection to the database.
 }
 \description{
-Creates an empty SQLite database to store time series data.
-The UTC offset for Alaska is -8.
+Create Time-Series Database
 }

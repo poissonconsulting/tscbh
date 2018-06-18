@@ -39,12 +39,12 @@ process_data <- function(ele, utc_offset) {
   
   if (identical(ncol(x), 2L)) x$Status_BCH <- NA_integer_
   
-  colnames(x) <- c("DateTime", "Observed", "Status_BCH")
+  colnames(x) <- c("DateTime", "Recorded", "Status_BCH")
   
   x$DateTime <- as.character(x$DateTime)
   x$DateTime <- as.POSIXct(x$DateTime, tz = ts_utc_offset_to_tz(utc_offset),
                            format = "%Y%m%d%H%M%S")
-  x$Observed <- as.double(as.character(x$Observed))
+  x$Recorded <- as.double(as.character(x$Recorded))
   x$Status_BCH <- as.integer(as.character(x$Status_BCH))
   
   ele$data <- x
@@ -110,7 +110,7 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   
   data$Status <- ordered("reasonable", c("reasonable", "questionable", "erroneous"))
   data$Status[!is.na(data$Status_BCH) & data$Status_BCH %in% c(55, 200)] <- "questionable"
-  data <- data[c("Station", "DateTime", "Observed", "Status")]
+  data <- data[c("Station", "DateTime", "Recorded", "Status")]
   data <- data[order(data$Station, data$DateTime), ]
   row.names(data) <- NULL  
   data

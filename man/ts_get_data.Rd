@@ -6,7 +6,7 @@
 \usage{
 ts_get_data(stations = ts_get_stations()$Station, start_date = end_date -
   366L, end_date = Sys.Date(), period = "hour", na_rm = FALSE,
-  status = "reasonable", file = getOption("tsdbr.file", "ts.db"))
+  status = "reasonable", conn = getOption("tsdbr.conn", NULL))
 }
 \arguments{
 \item{stations}{A character vector of the stations.}
@@ -23,7 +23,7 @@ The possible values are 'year', 'month', 'day', 'hour'.}
 \item{status}{A string of the worse type of data to get.
 The possible values are 'reasonable', 'questionable' or 'erroneous'.}
 
-\item{file}{A string of the name of the database file.}
+\item{conn}{An object of class SQLiteConnection.}
 }
 \value{
 A data frame of the requested data.
