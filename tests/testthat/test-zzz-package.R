@@ -55,11 +55,22 @@ test_that("package", {
   zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 3] <- NA
   zrxp$Status[zrxp$Station == "DDM_LLOG1" & lubridate::hour(zrxp$DateTime) == 4] <- "questionable"
   zrxp$Status[zrxp$Station == "DDM_LLOG2" & lubridate::hour(zrxp$DateTime) == 5] <- "erroneous"
-  zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 5] <- 
-    zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 5] + 1
+  zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 6] <- 
+    zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 6] + 1
   
   expect_is(ts_add_data(zrxp), "data.frame")
   expect_error(ts_add_data(zrxp))
-  expect_message(ts_doctor_db(), "no parent data for triad REV = REVTB [+] REVS")
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"))
+  expect_message(ts_doctor_db(), "no parent data for triad REV = REVTB [+] REVS")
+  data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"),
+                      status = "erroneous")
+  
+  ddm <- data[data$Station == "DDM" & lubridate::hour(data$DateTime) %in% c(1,3,6),]
+  expect_identical(ddm$Corrected, c(NA, 111.596, 111.451))
+  expect_identical(ddm$Recorded, c(NA, NA, 112.451))
+  expect_identical(ddm$Status, ordered(rep("reasonable", 3), c("reasonable", "questionable", "erroneous")))
+  llog <- data[data$Station == "DDM_LLOG" & lubridate::hour(data$DateTime) %in% c(1,2,4,5),]
+  expect_identical(llog$Corrected, c(NA, NA, 111.542, 111.505))
+  expect_identical(llog$Recorded, rep(NA_real_, 4))
+  expect_identical(llog$Status, ordered(c("reasonable", "reasonable", "questionable", "erroneous"), c("reasonable", "questionable", "erroneous")))
 })

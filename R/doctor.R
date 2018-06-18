@@ -43,10 +43,11 @@ doctor_triad <- function(triad, conn) {
   na0 <- !is.na(triad2$Corrected) & !is.na(triad3$Corrected)
   na1 <- !na0 & !na2
   
-  triad1$Corrected[na2] <- triad2$Corrected[na2] + triad3$Corrected[na2]
-  is.na(triad1$Corrected[na1]) <- TRUE  
-  triad1$Status <- pmax(triad1$Status, triad2$Status, triad3$Status)
-  triad1$Status[is.na(triad1$Corrected)] <- "reasonable"
+  triad1$Corrected[na0] <- triad2$Corrected[na0] + triad3$Corrected[na0]
+  triad1$Status[na0] <- pmax(triad1$Status[na0], triad2$Status[na0], triad3$Status[na0])
+  
+  is.na(triad1$Corrected[na1])<- TRUE  
+  triad1$Status[na1] <- "reasonable"
   
   ts_add_data(data = triad1, resolution = "replace")
   return(TRUE)
