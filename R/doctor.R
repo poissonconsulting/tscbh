@@ -13,8 +13,8 @@ doctor_triad <- function(triad, fix, conn) {
   span <- span[span$Station %in% triad[2:3],]
   if(!nrow(span)) {
     return(data.frame(Station = character(0),
-               inconsistent = numeric(0),
-               stringsAsFactors = FALSE))
+                      inconsistent = numeric(0),
+                      stringsAsFactors = FALSE))
   }
   start <- min(span$Start)
   end <- max(span$End)
@@ -32,7 +32,7 @@ doctor_triad <- function(triad, fix, conn) {
   data <- data[data$DateTime >= start & data$DateTime <= end,]
   
   data$Status <- ts_status_to_integer(data$Status)
-
+  
   triad1 <- data[data$Station == triad[1],]
   triad2 <- data[data$Station == triad[2],]
   triad3 <- data[data$Station == triad[3],]
@@ -45,19 +45,23 @@ doctor_triad <- function(triad, fix, conn) {
   na0 <- !is.na(triad2$Corrected) & !is.na(triad3$Corrected)
   na2 <- is.na(triad2$Corrected) & is.na(triad3$Corrected)
   na1 <- !na0 & !na2
-
+  
   inconsistent <- (na1 & !is.na(triad1$Corrected)) | 
     (na0 & (is.na(triad1$Corrected) | triad1$Corrected != triad2$Corrected + triad3$Corrected)) | 
     (na0 & triad1$Status < pmax(triad2$Status, triad3$Status))
-
+  
   triad1$Corrected[na0] <- triad2$Corrected[na0] + triad3$Corrected[na0]
   triad1$Status[na0] <- pmax(triad2$Status[na0], triad3$Status[na0])
   is.na(triad1$Corrected[na1])<- TRUE
-
+  
   triad1 <- triad1[inconsistent,]
   triad1$Status <- ts_integer_to_status(triad1$Status)
   
-  if(fix && nrow(triad1)) ts_add_data(data = triad1, resolution = "replace")
+  if(!nrow(triad1)) {
+    return(data.frame(Station = character(0),
+                      inconsistent = numeric(0),
+                      stringsAsFactors = FALSE))    
+  } else if(fix) ts_add_data(data = triad1, resolution = "replace")
   data.frame(Station = triad[1],
              inconsistent = nrow(triad1),
              stringsAsFactors = FALSE)
@@ -92,7 +96,7 @@ ts_doctor_db <- function(check_limits = TRUE,
     triads <- do.call("rbind", triads)
     if(nrow(triads)) {
       message("the following stations ", ifelse(fix, "had", "have")," inconsistent triads:\n",
-              paste0(capture.output(triads), collapse = "\n"))
+              paste0(utils::capture.output(triads), collapse = "\n"))
     }
     triads <- nrow(triads) > 0
   }

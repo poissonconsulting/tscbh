@@ -11,7 +11,8 @@ Depends:
 Imports: 
     DBI,
     checkr (>= 0.2.0.9004),
-    lubridate
+    lubridate,
+    utils
 Additional_Repositories: http://poissonconsulting.github.io/drat
 Encoding: UTF-8
 LazyData: true

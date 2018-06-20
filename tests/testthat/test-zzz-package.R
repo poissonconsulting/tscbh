@@ -2,7 +2,7 @@ context("package")
 
 test_that("package", {
   file <- ":memory:"
-  file <- "tscbh.sqlite"
+#  file <- "tscbh.sqlite"
   if(file.exists(file)) unlink(file)
   conn <- ts_create_db(file = file)
   teardown(ts_disconnect_db(conn))
@@ -61,14 +61,16 @@ test_that("package", {
   expect_message(ts_doctor_db(), "the following stations have inconsistent triads.*1\\s+DDM_SPOG\\s+23.*2\\s+DDM_LLOG\\s+22\\s$")
   expect_message(ts_doctor_db(fix = TRUE), "the following stations had inconsistent triads.*1\\s+DDM_SPOG\\s+23.*2\\s+DDM_LLOG\\s+22\\s.*3\\s+DDM\\s+5\\s$")
   
+  expect_message(ts_doctor_db(), "the following stations have gaps in their data.*1\\s+DDM_LLOG\\s+2.*2\\s+DDM_SPOG\\s+1\\s$")
   expect_true(ts_doctor_db(fix = TRUE))
+  
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"),
                       status = "erroneous")
   
   ddm <- data[data$Station == "DDM" & lubridate::hour(data$DateTime) %in% c(1,3,6),]
   expect_identical(ddm$Corrected, c(NA, 111.596, 111.451))
   expect_identical(ddm$Recorded, c(NA, NA, 112.451))
-  expect_identical(ddm$Status, ordered(rep("reasonable", 3), c("reasonable", "questionable", "erroneous")))
+  expect_identical(ddm$Status, ts_integer_to_status(rep(1L, 3)))
   llog <- data[data$Station == "DDM_LLOG" & lubridate::hour(data$DateTime) %in% c(1,2,4,5),]
   expect_identical(llog$Corrected, c(NA, NA, 111.542, 111.505))
   expect_identical(llog$Recorded, rep(NA_real_, 4))
