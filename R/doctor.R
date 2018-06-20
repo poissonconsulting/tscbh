@@ -57,8 +57,6 @@ doctor_triad <- function(triad, fix, conn) {
   triad1 <- triad1[inconsistent,]
   triad1$Status <- ts_integer_to_status(triad1$Status)
   
-  print(triad1)
-
   if(fix && nrow(triad1)) ts_add_data(data = triad1, resolution = "replace")
   data.frame(Station = triad[1],
              inconsistent = nrow(triad1),
@@ -93,7 +91,7 @@ ts_doctor_db <- function(check_limits = TRUE,
     triads <- lapply(triads, doctor_triad, fix = fix, conn = conn)
     triads <- do.call("rbind", triads)
     if(nrow(triads)) {
-      message("the following triads ", ifelse(fix, "had", "have")," inconsistencies:\n",
+      message("the following stations ", ifelse(fix, "had", "have")," inconsistent triads:\n",
               paste0(capture.output(triads), collapse = "\n"))
     }
     triads <- nrow(triads) > 0

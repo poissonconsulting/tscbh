@@ -42,9 +42,6 @@ test_that("package", {
   ts_add_triad("DDM", "DDM_LLOG", "DDM_SPOG")
   ts_add_triad("REV", "REVTB", "REVS")
   expect_error(ts_add_triad("MCA", "MCATB", "MCAS"))
-  # ts_add_triad("HLK_ALH", "HLK", "ALK")
-  # ts_add_triad("BRD", "BRDTB", "BRDS")
-  # ts_add_triad("BRD_BRX", "BRD", "BRX")
   
   zrxp <- ts_read_zrxp(file = file.path(dir, "data.zrxp"))
   zrxp <- zrxp[lubridate::day(zrxp$DateTime) == 31,]
@@ -59,9 +56,12 @@ test_that("package", {
     zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 6] + 1
   
   expect_is(ts_add_data(zrxp), "data.frame")
-  expect_error(ts_add_data(zrxp))
+  expect_error(ts_add_data(zrxp), "UNIQUE constraint failed: Data.Station, Data.DateTimeData")
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"))
-  ts_doctor_db(fix = TRUE)
+  expect_message(ts_doctor_db(), "the following stations have inconsistent triads.*1\\s+DDM_SPOG\\s+23.*2\\s+DDM_LLOG\\s+22\\s$")
+  expect_message(ts_doctor_db(fix = TRUE), "the following stations had inconsistent triads.*1\\s+DDM_SPOG\\s+23.*2\\s+DDM_LLOG\\s+22\\s.*3\\s+DDM\\s+5\\s$")
+  
+  expect_true(ts_doctor_db(fix = TRUE))
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"),
                       status = "erroneous")
   
