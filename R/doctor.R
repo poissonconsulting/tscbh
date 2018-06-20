@@ -1,4 +1,4 @@
-doctor_triad <- function(triad, conn) {
+doctor_triad <- function(triad, fix, conn) {
   triad <- c(triad$Child, triad$Parent1, triad$Parent2)
   
   span <- DBI::dbGetQuery(conn, paste0(
@@ -6,14 +6,15 @@ doctor_triad <- function(triad, conn) {
     FROM Data
     WHERE Station ", in_commas(triad),"
     GROUP BY Station"))
-
+  
   span$Start <- as.POSIXct(span$Start, tz = "Etc/GMT+8")
   span$End <- as.POSIXct(span$End, tz = "Etc/GMT+8")
-
+  
   span <- span[span$Station %in% triad[2:3],]
   if(!nrow(span)) {
-    message("no parent data for triad ", format_triad(triad), call. = FALSE)
-    return(TRUE)
+    return(data.frame(Station = character(0),
+               inconsistent = numeric(0),
+               stringsAsFactors = FALSE))
   }
   start <- min(span$Start)
   end <- max(span$End)
@@ -30,6 +31,8 @@ doctor_triad <- function(triad, conn) {
   
   data <- data[data$DateTime >= start & data$DateTime <= end,]
   
+  data$Status <- ts_status_to_integer(data$Status)
+
   triad1 <- data[data$Station == triad[1],]
   triad2 <- data[data$Station == triad[2],]
   triad3 <- data[data$Station == triad[3],]
@@ -39,43 +42,61 @@ doctor_triad <- function(triad, conn) {
   triad2 <- triad2[order(triad2$DateTime),]
   triad3 <- triad3[order(triad3$DateTime),]
   
-  na2 <- is.na(triad2$Corrected) & is.na(triad3$Corrected)
   na0 <- !is.na(triad2$Corrected) & !is.na(triad3$Corrected)
+  na2 <- is.na(triad2$Corrected) & is.na(triad3$Corrected)
   na1 <- !na0 & !na2
-  
+
+  inconsistent <- (na1 & !is.na(triad1$Corrected)) | 
+    (na0 & (is.na(triad1$Corrected) | triad1$Corrected != triad2$Corrected + triad3$Corrected)) | 
+    (na0 & triad1$Status < pmax(triad2$Status, triad3$Status))
+
   triad1$Corrected[na0] <- triad2$Corrected[na0] + triad3$Corrected[na0]
-  triad1$Status[na0] <- pmax(triad1$Status[na0], triad2$Status[na0], triad3$Status[na0])
+  triad1$Status[na0] <- pmax(triad2$Status[na0], triad3$Status[na0])
+  is.na(triad1$Corrected[na1])<- TRUE
+
+  triad1 <- triad1[inconsistent,]
+  triad1$Status <- ts_integer_to_status(triad1$Status)
   
-  is.na(triad1$Corrected[na1])<- TRUE  
-  triad1$Status[na1] <- "reasonable"
-  
-  ts_add_data(data = triad1, resolution = "replace")
-  return(TRUE)
+  print(triad1)
+
+  if(fix && nrow(triad1)) ts_add_data(data = triad1, resolution = "replace")
+  data.frame(Station = triad[1],
+             inconsistent = nrow(triad1),
+             stringsAsFactors = FALSE)
 }
 
 #' Doctor Database
 #'
 #' @inheritParams tsdbr::ts_doctor_db
+#' @param check_triads A flag indicating whether to check if triads are consistent.
 #' @return A flag indicating whether or not the database passed the checks (or was fixed)
 #' @export
-ts_doctor_db <- function(conn = getOption("tsdbr.conn", NULL)) {
+ts_doctor_db <- function(check_limits = TRUE,
+                         check_period = TRUE,
+                         check_gaps = TRUE,
+                         check_triads = TRUE,
+                         fix = FALSE, 
+                         conn = getOption("tsdbr.conn", NULL)) {
   
-  flag <- tsdbr::ts_doctor_db(check_limits = TRUE, 
-                      check_period = TRUE,
-                      check_gaps = TRUE,
-                      fix = TRUE,
-                      conn = conn)
+  flag <- tsdbr::ts_doctor_db(check_limits = check_limits, 
+                              check_period = check_period,
+                              check_gaps = check_gaps,
+                              fix = fix,
+                              conn = conn)
   
-  if(!flag) {
-    warning("fixes failed (triads unchecked)!")
-    return(FALSE)
+  triads <- FALSE
+  if(check_triads) {
+    triads <- ts_get_table("Triad", conn = conn)
+    triads <- triads[order(triads$Triad),]
+    
+    triads <- split(triads, triads$Triad)
+    triads <- lapply(triads, doctor_triad, fix = fix, conn = conn)
+    triads <- do.call("rbind", triads)
+    if(nrow(triads)) {
+      message("the following triads ", ifelse(fix, "had", "have")," inconsistencies:\n",
+              paste0(capture.output(triads), collapse = "\n"))
+    }
+    triads <- nrow(triads) > 0
   }
-  
-  triads <- ts_get_table("Triad", conn = conn)
-  triads <- triads[order(triads$Triad),]
-  
-  triads <- split(triads, triads$Triad)
-  
-  triads <- vapply(triads, doctor_triad, TRUE, conn = conn)
-  all(triads)
+  flag && !triads
 }

@@ -61,7 +61,7 @@ test_that("package", {
   expect_is(ts_add_data(zrxp), "data.frame")
   expect_error(ts_add_data(zrxp))
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"))
-  expect_message(ts_doctor_db(), "no parent data for triad REV = REVTB [+] REVS")
+  ts_doctor_db(fix = TRUE)
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"),
                       status = "erroneous")
   
