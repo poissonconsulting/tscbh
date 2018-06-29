@@ -49,5 +49,5 @@ ts_read_brd <- function(file = "brd.csv", utc_offset = -8L) {
 
   data <- data[order(data$Station, data$DateTime), ]
   rownames(data) <- NULL
-  data
+  as_tibble(data)
 }

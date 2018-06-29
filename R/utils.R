@@ -8,6 +8,14 @@ add <- function(data, table, conn) {
   invisible(data)
 }
 
+is_even <- function(x) {
+  x %% 2 == 0 
+}
+
+is_odd <- function(x) {
+  !is_even(x)
+}
+
 in_commas <- function(x) {
   paste0("IN ('", paste0(x, collapse = "','"), "')")
 }
@@ -29,4 +37,11 @@ plural <- function(x, n = 1L, end = "") {
   n <- check_count(n, coerce = TRUE)
   check_string(end)
   paste0(x, ifelse(n != 1L, "s", ""), end)
+}
+
+as_tibble <- function(data) {
+  if (requireNamespace("tibble", quietly = TRUE)) {
+    data <- tibble::as_tibble(data)
+  }
+  data
 }

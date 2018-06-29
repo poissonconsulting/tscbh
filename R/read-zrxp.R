@@ -113,5 +113,5 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   data <- data[c("Station", "DateTime", "Recorded", "Status")]
   data <- data[order(data$Station, data$DateTime), ]
   row.names(data) <- NULL  
-  data
+  as_tibble(data)
 }
