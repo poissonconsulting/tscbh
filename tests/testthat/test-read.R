@@ -4,13 +4,20 @@ test_that("read_bch", {
   dir <- system.file("exdata", package = "tscbh", mustWork = TRUE)
   
   bch <- ts_read_bch(file = file.path(dir, "bch.xls"))
+  bch2 <- ts_read_bch(file = file.path(dir, "bch2.xls"))
   
   expect_identical(nrow(bch), 26304L)
-  expect_identical(colnames(bch), c("DateTime", "Recorded"))
 
   expect_identical(bch[1,], tibble::as_tibble(data.frame(
     DateTime = as.POSIXct("1992-01-01 00:00:00", tz = "Etc/GMT+8"),
     Recorded = 0,
+    stringsAsFactors = FALSE)))
+
+  expect_identical(nrow(bch2), 8760L)
+  
+  expect_identical(bch2[1,], tibble::as_tibble(data.frame(
+    DateTime = as.POSIXct("2001-01-01 00:00:00", tz = "Etc/GMT+8"),
+    Recorded = NA_real_,
     stringsAsFactors = FALSE)))
 })
 

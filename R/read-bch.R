@@ -18,18 +18,17 @@ ts_read_bch <- function(file = "tscbh.xls") {
   if(!any(grepl("Elevations [(]m[)]", meta[1])))
     stop("all elevations must be in m", call. = FALSE)
   
-  data <- readxl::read_excel(file, sheet = "data", skip = 2)
-  data <- data[vapply(data, function(x) !all(is.na(x)), TRUE)]
-  if(nrow(data) < 3L) stop("data must have at least three columns with non-missing values")
-  if(colnames(data)[1] != "Hour") stop("the first column in data with non-missing values must be 'Hour'", call. = FALSE)
+  data <- readxl::read_excel(file, sheet = "data", skip = 2, guess_max = 10000)
   check_data(data, values = list(Hour = c(1,24)))
-  if(!is_odd(ncol(data))) stop("the number of columns in data after 'Hour' must be even", call. = FALSE)
-  class <- vapply(data[-1], function(x) class(x)[1], "")
-  class <- (is_odd(1:length(class)) & class == "POSIXct") | (!is_odd(1:length(class)) & class == "numeric")
-  if(!all(class)) stop("the columns after 'Hour' must alternate between 'POSIXct' and 'numeric' types", call. = FALSE)
+  data <- data[which(colnames(data) == "Hour"):ncol(data)]
+  class <- vapply(data, function(x) class(x)[1], "")
+  posix <- which(class == "POSIXct")
+  if(!length(posix)) stop("data must have at least column with Date values after 'Hour'", call. = FALSE)
+  if(ncol(data) == posix[length(posix)]) 
+    stop("data must have at least column after the last column with Date values", call. = FALSE)
   datas <- list()
-  for(i in 1:((ncol(data) - 1)/2)) {
-    datas[[i]] <- data[c(1, i * 2, i * 2 + 1)]
+  for(i in seq_along(posix)) {
+    datas[[i]] <- data[c(1, posix[i]:(posix[i]+1))]
     colnames(datas[[i]]) <- c("Hour", "DateTime", "Recorded")
   }
   data <- do.call("rbind", datas)
