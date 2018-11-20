@@ -36,6 +36,6 @@ Please report any
 [Pull requests](https://github.com/poissonconsulting/tscbh/pulls) are
 always welcome.
 
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
+Please note that the ‘tscbh’ project is released with a [Contributor
+Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
+you agree to abide by its terms.
