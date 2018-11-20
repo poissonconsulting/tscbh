@@ -13,7 +13,7 @@ ts_write_csv <- function(data, file = "tsdbr.csv") {
   check_string(file)
   
   data$Depth <- NULL
-  data$StationName <- NULL
+  data$Site <- NULL
   
   colnames <- colnames(data)
   data$Year <- format(data$DateTime, "%Y")
