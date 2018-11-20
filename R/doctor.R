@@ -20,8 +20,8 @@ doctor_triad <- function(triad, fix, conn) {
   end <- max(span$End)
   
   data <- ts_get_data(stations = triad, 
-                      start_date = lubridate::date(start), 
-                      end_date = lubridate::date(end) + 1,
+                      start_date = dtt_date(start), 
+                      end_date = dtt_date(end) + 1,
                       period = "hour",
                       fill = TRUE,
                       status = "erroneous",

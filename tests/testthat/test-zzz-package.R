@@ -44,16 +44,16 @@ test_that("package", {
   expect_error(ts_add_triad("MCA", "MCATB", "MCAS"))
   
   zrxp <- ts_read_zrxp(file = file.path(dir, "data.zrxp"))
-  zrxp <- zrxp[lubridate::day(zrxp$DateTime) == 31,]
+  zrxp <- zrxp[dttr::dtt_day(zrxp$DateTime) == 31,]
   zrxp <- ts_translate_stations(zrxp)
   zrxp <- zrxp[!is.na(zrxp$Station),]
-  zrxp$Recorded[lubridate::hour(zrxp$DateTime) == 1] <- NA
-  zrxp$Recorded[zrxp$Station == "DDM_LLOG1" & lubridate::hour(zrxp$DateTime) == 2] <- NA
-  zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 3] <- NA
-  zrxp$Status[zrxp$Station == "DDM_LLOG1" & lubridate::hour(zrxp$DateTime) == 4] <- "questionable"
-  zrxp$Status[zrxp$Station == "DDM_LLOG2" & lubridate::hour(zrxp$DateTime) == 5] <- "erroneous"
-  zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 6] <- 
-    zrxp$Recorded[zrxp$Station == "DDM" & lubridate::hour(zrxp$DateTime) == 6] + 1
+  zrxp$Recorded[dttr::dtt_hour(zrxp$DateTime) == 1] <- NA
+  zrxp$Recorded[zrxp$Station == "DDM_LLOG1" & dttr::dtt_hour(zrxp$DateTime) == 2] <- NA
+  zrxp$Recorded[zrxp$Station == "DDM" & dttr::dtt_hour(zrxp$DateTime) == 3] <- NA
+  zrxp$Status[zrxp$Station == "DDM_LLOG1" & dttr::dtt_hour(zrxp$DateTime) == 4] <- "questionable"
+  zrxp$Status[zrxp$Station == "DDM_LLOG2" & dttr::dtt_hour(zrxp$DateTime) == 5] <- "erroneous"
+  zrxp$Recorded[zrxp$Station == "DDM" & dttr::dtt_hour(zrxp$DateTime) == 6] <- 
+    zrxp$Recorded[zrxp$Station == "DDM" & dttr::dtt_hour(zrxp$DateTime) == 6] + 1
   
   expect_is(ts_add_data(zrxp), "data.frame")
   expect_error(ts_add_data(zrxp), "UNIQUE constraint failed: Data.Station, Data.DateTimeData")
@@ -67,11 +67,11 @@ test_that("package", {
   data <- ts_get_data(start_date = as.Date("2015-03-31"), end_date = as.Date("2015-04-01"),
                       status = "erroneous")
   
-  ddm <- data[data$Station == "DDM" & lubridate::hour(data$DateTime) %in% c(1,3,6),]
+  ddm <- data[data$Station == "DDM" & dttr::dtt_hour(data$DateTime) %in% c(1,3,6),]
   expect_identical(ddm$Corrected, c(NA, 111.596, 111.451))
   expect_identical(ddm$Recorded, c(NA, NA, 112.451))
   expect_identical(ddm$Status, ts_integer_to_status(rep(1L, 3)))
-  llog <- data[data$Station == "DDM_LLOG" & lubridate::hour(data$DateTime) %in% c(1,2,4,5),]
+  llog <- data[data$Station == "DDM_LLOG" & dttr::dtt_hour(data$DateTime) %in% c(1,2,4,5),]
   expect_identical(llog$Corrected, c(NA, NA, 111.542, 111.505))
   expect_identical(llog$Recorded, rep(NA_real_, 4))
   expect_identical(llog$Status, ordered(c("reasonable", "reasonable", "questionable", "erroneous"), c("reasonable", "questionable", "erroneous")))

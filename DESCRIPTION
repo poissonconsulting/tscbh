@@ -1,16 +1,16 @@
 Package: tscbh
-Version: 0.0.0.9013
-Date: 2018-06-29
+Version: 0.0.0.9014
 Title: Columbia Basin Hydrological Database
 Description: Populates, maintains and queries an 
   SQLite database of hydrological time series data for the Columbia Basin.
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 License: MIT + file LICENSE
 Depends: 
-    tsdbr (>= 0.0.0.9017)
+    tsdbr
 Imports: 
     DBI,
-    checkr (>= 0.3.0),
+    checkr,
+    dttr,
     lubridate,
     readxl,
     utils
@@ -18,8 +18,11 @@ Suggests:
     covr,
     testthat,
     tibble
-Additional_Repositories: http://poissonconsulting.github.io/drat
+Remotes: 
+  poissonconsulting/checkr,
+  poissonconsulting/dttr,
+  poissonconsulting/tsbdr
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1

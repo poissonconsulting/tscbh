@@ -1,2 +1,2 @@
-#' @import checkr tsdbr
+#' @import checkr dttr tsdbr
 NULL

@@ -33,9 +33,9 @@ ts_read_bch <- function(file = "tscbh.xls") {
   }
   data <- do.call("rbind", datas)
   rm(datas)
-  data$DateTime <- lubridate::force_tz(data$DateTime, "Etc/GMT+8")
+  data$DateTime <- dtt_set_tz(data$DateTime, "Etc/GMT+8")
   data$Hour <- as.integer(data$Hour) - 1L
-  lubridate::hour(data$DateTime) <- data$Hour
+  dtt_hour(data$DateTime) <- data$Hour
   data$Hour <- NULL
   data <- data[!is.na(data$DateTime),]
   check_key(data, key = "DateTime")
