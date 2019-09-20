@@ -1,12 +1,12 @@
 language: R
 cache: packages
-sudo: required
 
-r_packages:
-  - covr
-
-after_success:
-  - Rscript -e 'covr::codecov()'
+jobs:
+  include:
+  - r: devel
+  - r: release
+    after_success:
+    - Rscript -e 'covr::codecov()'
 
 notifications:
   email: false
@@ -14,5 +14,4 @@ notifications:
     rooms:
       - poissonconsulting:BKjfn7jsVh8zXTu2rq7BEQEb
     on_success: change
-    on_failure: always
-
+    on_failure: change
