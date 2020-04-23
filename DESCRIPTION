@@ -24,7 +24,7 @@ Remotes:
   poissonconsulting/err,
   poissonconsulting/checkr,
   poissonconsulting/dttr,
-  poissonconsulting/tsbdr
+  poissonconsulting/tsdbr
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
