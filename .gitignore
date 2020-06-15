@@ -1,9 +1,14 @@
-inst/doc
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 
-*.pdf
-*.sqlite
-*.db
+.DS_Store
+.Renviron
+.RProfile
+.httr-oauth
+
+*.html
+
+docs/
+inst/docs/
