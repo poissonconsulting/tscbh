@@ -39,5 +39,7 @@ Please report any [issues](https://github.com/poissonconsulting/tscbh/issues).
 
 [Pull requests](https://github.com/poissonconsulting/tscbh/pulls) are always welcome.
 
-Please note that the 'tscbh' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
-By contributing to this project, you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the tscbh project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
