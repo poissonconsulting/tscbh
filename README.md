@@ -1,15 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Travis build
-status](https://travis-ci.org/poissonconsulting/tscbh.svg?branch=master)](https://travis-ci.org/poissonconsulting/tscbh)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/tscbh?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/tscbh)
-[![Coverage
-status](https://codecov.io/gh/poissonconsulting/tscbh/branch/master/graph/badge.svg)](https://codecov.io/github/poissonconsulting/tscbh?branch=master)
+[![R build
+status](https://github.com/poissonconsulting/tscbh/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/tscbh/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/poissonconsulting/tscbh/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/tscbh?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
 
 # tscbh
 
@@ -36,6 +36,9 @@ Please report any
 [Pull requests](https://github.com/poissonconsulting/tscbh/pulls) are
 always welcome.
 
-Please note that the ‘tscbh’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the tscbh project is released with a [Contributor Code
+of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
