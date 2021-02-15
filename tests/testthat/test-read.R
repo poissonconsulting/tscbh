@@ -1,5 +1,3 @@
-context("read")
-
 test_that("read_bch", {
   dir <- system.file("exdata", package = "tscbh", mustWork = TRUE)
   

@@ -1,5 +1,3 @@
-context("package")
-
 test_that("package", {
   file <- ":memory:"
 #  file <- "tscbh.sqlite"
