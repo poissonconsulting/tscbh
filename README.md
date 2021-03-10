@@ -1,7 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- badges: start -->
 
-<!-- badges: start --> [![Lifecycle:
+[![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R build
 status](https://github.com/poissonconsulting/tscbh/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/tscbh/actions)
@@ -19,14 +20,10 @@ The database is not provided with this package.
 
 ## Installation
 
-To install the latest version from the Poisson drat
-[repository](https://github.com/poissonconsulting/drat)
+To install from GitHub
 
-``` r
-install.packages("drat")
-drat::addRepo("poissonconsulting")
-install.packages("tscbh")
-```
+    install.packages("devtools")
+    devtools::install_github("poissonconsulting/tscbh")
 
 ## Contribution
 

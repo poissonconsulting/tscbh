@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
- <!-- badges: start -->
+<!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R build status](https://github.com/poissonconsulting/tscbh/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/tscbh/actions)
 [![Codecov test coverage](https://codecov.io/gh/poissonconsulting/tscbh/branch/master/graph/badge.svg)](https://codecov.io/gh/poissonconsulting/tscbh?branch=master)
@@ -27,11 +27,10 @@ The database is not provided with this package.
 
 ## Installation
 
-To install the latest version from the Poisson drat [repository](https://github.com/poissonconsulting/drat)
-``` r
-install.packages("drat")
-drat::addRepo("poissonconsulting")
-install.packages("tscbh")
+To install from GitHub
+```
+install.packages("devtools")
+devtools::install_github("poissonconsulting/tscbh")
 ```
 
 ## Contribution
