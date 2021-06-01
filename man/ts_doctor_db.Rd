@@ -4,9 +4,14 @@
 \alias{ts_doctor_db}
 \title{Doctor Database}
 \usage{
-ts_doctor_db(check_limits = TRUE, check_period = TRUE,
-  check_gaps = TRUE, check_triads = TRUE, fix = FALSE,
-  conn = getOption("tsdbr.conn", NULL))
+ts_doctor_db(
+  check_limits = TRUE,
+  check_period = TRUE,
+  check_gaps = TRUE,
+  check_triads = TRUE,
+  fix = FALSE,
+  conn = getOption("tsdbr.conn", NULL)
+)
 }
 \arguments{
 \item{check_limits}{A flag indicating whether to check if corrected values outside the lower and upper limits are coded as erroneous.}

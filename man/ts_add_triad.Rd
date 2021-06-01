@@ -4,8 +4,7 @@
 \alias{ts_add_triad}
 \title{Add Triad}
 \usage{
-ts_add_triad(child, parent1, parent2, conn = getOption("tsdbr.conn",
-  NULL))
+ts_add_triad(child, parent1, parent2, conn = getOption("tsdbr.conn", NULL))
 }
 \arguments{
 \item{child}{A string of the child station.}
