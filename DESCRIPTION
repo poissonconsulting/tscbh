@@ -10,7 +10,7 @@ Depends:
 Imports: 
     DBI,
     chk,
-    dttr,
+    dttr2,
     lubridate,
     readxl,
     utils
@@ -21,9 +21,8 @@ Suggests:
     knitr,
     rmarkdown
 Remotes: 
-  poissonconsulting/err,
   poissonconsulting/chk,
-  poissonconsulting/dttr,
+  poissonconsulting/dttr2,
   poissonconsulting/tsdbr
 Encoding: UTF-8
 LazyData: true

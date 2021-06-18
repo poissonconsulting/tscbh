@@ -1,2 +1,2 @@
-#' @import dttr tsdbr chk
+#' @import dttr2 tsdbr chk
 NULL
