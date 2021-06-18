@@ -49,7 +49,7 @@ ts_write_csv <- function(data, file = "tsdbr.csv") {
                            DateTime = Sys.time()),
              nrow = TRUE,
              key = c("Station", "DateTime"))
-  check_string(file)
+  chk_string(file)
   
   data$Depth <- NULL
   data$Site <- NULL

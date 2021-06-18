@@ -1,5 +1,7 @@
 format_triad <- function(triad) {
-  check_vector(triad, "", length = 3, unique = TRUE)
+  chk_vector(triad)
+  check_dim(triad, dim = length(3))
+  chk_unique(triad)
   paste(triad[1], "=", triad[2], "+", triad[3])
 }
 
@@ -21,7 +23,7 @@ in_commas <- function(x) {
 }
 
 punctuate <- function(x, qualifier = "or") {
-  check_string(qualifier)
+  chk_string(qualifier)
   if (is.logical(x) || is.integer(x) || is.numeric(x)) {
     x <- as.character(x)
   } else
@@ -33,9 +35,13 @@ punctuate <- function(x, qualifier = "or") {
 }
 
 plural <- function(x, n = 1L, end = "") {
-  check_string(x)
-  n <- check_count(n, coerce = TRUE)
-  check_string(end)
+  chk_string(x)
+  
+  chk_whole_number(n)
+  chk_gte(n)
+  n <- as.integer(n)
+  
+  chk_string(end)
   paste0(x, ifelse(n != 1L, "s", ""), end)
 }
 

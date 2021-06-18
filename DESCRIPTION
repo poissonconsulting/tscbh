@@ -9,7 +9,7 @@ Depends:
     tsdbr
 Imports: 
     DBI,
-    checkr,
+    chk,
     dttr,
     lubridate,
     readxl,
@@ -22,7 +22,7 @@ Suggests:
     rmarkdown
 Remotes: 
   poissonconsulting/err,
-  poissonconsulting/checkr,
+  poissonconsulting/chk,
   poissonconsulting/dttr,
   poissonconsulting/tsdbr
 Encoding: UTF-8
