@@ -7,7 +7,8 @@
 #' @export
 ts_read_brd <- function(file = "brd.csv", utc_offset = -8L) {
   chk_string(file)
-  chk_scalar(utc_offset, c(-12L, 14L))
+  chk_scalar(utc_offset)
+  check_values(utc_offset, c(-12L, 14L))
 
   if(!file.exists(file))
     stop("file '", file, "' does not exist", call. = FALSE)

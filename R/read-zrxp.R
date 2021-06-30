@@ -66,7 +66,8 @@ merge_meta_data <- function(ele) {
 #' @export
 ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   chk_string(file)
-  chk_scalar(utc_offset, c(-12L, 14L))
+  chk_scalar(utc_offset)
+  check_values(utc_offset, c(-12L, 14L))
 
   if(!file.exists(file))
     stop("file '", file, "' does not exist", call. = FALSE)

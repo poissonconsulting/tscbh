@@ -1,7 +1,7 @@
 format_triad <- function(triad) {
   chk_vector(triad)
   check_values(triad, "")
-  check_dim(triad, dim = length(3))
+  check_dim(triad, dim = 3)
   chk_unique(triad)
   paste(triad[1], "=", triad[2], "+", triad[3])
 }
