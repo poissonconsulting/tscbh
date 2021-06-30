@@ -7,7 +7,7 @@
 #' @param file A string specifying the path to the file.
 #' @export
 ts_read_bch <- function(file = "tscbh.xls") {
-  check_string(file)
+  chk_string(file)
 
   if(!file.exists(file))
     stop("file '", file, "' does not exist", call. = FALSE)

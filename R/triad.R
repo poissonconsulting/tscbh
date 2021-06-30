@@ -7,9 +7,9 @@
 #' @return A data frame of the imported triad.
 #' @export
 ts_add_triad <- function(child, parent1, parent2, conn = getOption("tsdbr.conn", NULL)) {
-  check_string(child)
-  check_string(parent1)
-  check_string(parent2)
+  chk_string(child)
+  chk_string(parent1)
+  chk_string(parent2)
   
   triads <- data.frame(Child = child,
                        Parent1 = parent1,
