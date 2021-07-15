@@ -8,7 +8,7 @@ ts_create_db <- function (file) {
                               periods = c("day", "hour"),
                               utc_offset = -8L)
   
-  DBI::dbGetQuery(conn, "CREATE TABLE Triad (
+  DBI::dbExecute(conn, "CREATE TABLE Triad (
     Triad INTEGER PRIMARY KEY,
     Child  TEXT NOT NULL UNIQUE,
     Parent1 TEXT NOT NULL UNIQUE,
