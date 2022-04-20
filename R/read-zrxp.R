@@ -5,6 +5,17 @@ process_meta <- function(ele, utc_offset) {
   station <- sub("#REXCHANGE", "", station, useBytes = TRUE)
   station <- sub("\\|\\*\\|.+", "", station, useBytes = TRUE)
   
+  if(!length(station) || length(station) > 1L || !station %in% .station_lookup$station) {
+    station <- grep("TSPATH", x, useBytes = TRUE, value = TRUE)
+    station <- sub(".*TSPATH\\/08N\\/", "", station)
+    station <- sub("\\|\\*\\|.*", "", station)
+    station <- gsub("\\/", "_", station)
+
+    if(!length(station) || length(station) > 1L || !station %in% .station_lookup$station_alt) stop("Cannot parse station name from file meta data.")
+
+    station <- .station_lookup$station[station == .station_lookup$station_alt]
+  }
+  
   TZ <- grep(".+TZ.+", x, useBytes = TRUE, value = TRUE)
   
   if (length(TZ)) {
@@ -104,6 +115,13 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   }
   
   ls <- lapply(ls, process_meta, utc_offset = utc_offset)
+  
+  sec <- vapply(ls, FUN.VALUE = TRUE, FUN = function(x){
+    grepl("secondary", tolower(x$meta$Station))
+  })
+  
+  if(any(sec)) ls <- ls[-which(sec)]
+  
   ls <- lapply(ls, process_data, utc_offset = utc_offset)
   ls <- lapply(ls, merge_meta_data)
   
