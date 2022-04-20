@@ -36,6 +36,13 @@ test_that("read_zrxp", {
     Status = ordered("reasonable", c("reasonable", "questionable", "erroneous")),
     stringsAsFactors = FALSE)))
   
+  zrxp <- ts_read_zrxp(file = file.path(dir, "data_2022_format.zrxp"))
+  expect_true(all(unique(zrxp$Station) %in% .station_lookup$station))
+  
+  expect_error(
+    ts_read_zrxp(file = file.path(dir, "data_2022_format_bad_station.zrxp")),
+    "Cannot parse station name from file meta data."
+  )
 })
   
 test_that("read_brd", {
