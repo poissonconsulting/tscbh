@@ -14,11 +14,14 @@ ts_doctor_db(
 )
 }
 \arguments{
-\item{check_limits}{A flag indicating whether to check if corrected values outside the lower and upper limits are coded as erroneous.}
+\item{check_limits}{A flag indicating whether to check if corrected values
+outside the lower and upper limits are coded as erroneous.}
 
-\item{check_period}{A flag indicating whether to check if the periods are valid.}
+\item{check_period}{A flag indicating whether to check if the periods are
+valid.}
 
-\item{check_gaps}{A flag indicating whether to check if there are any gaps in the data given the period.}
+\item{check_gaps}{A flag indicating whether to check if there are any gaps in
+the data given the period.}
 
 \item{check_triads}{A flag indicating whether to check if triads are consistent.}
 
