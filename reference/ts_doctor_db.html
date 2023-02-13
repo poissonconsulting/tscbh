@@ -44,14 +44,14 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ts_doctor_db</span><span class="op">(</span>
-  check_limits <span class="op">=</span> <span class="cn">TRUE</span>,
-  check_period <span class="op">=</span> <span class="cn">TRUE</span>,
-  check_gaps <span class="op">=</span> <span class="cn">TRUE</span>,
-  check_triads <span class="op">=</span> <span class="cn">TRUE</span>,
-  fix <span class="op">=</span> <span class="cn">FALSE</span>,
-  conn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tsdbr.conn"</span>, <span class="cn">NULL</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ts_doctor_db</span><span class="op">(</span></span>
+<span>  check_limits <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_period <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_gaps <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_triads <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  fix <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  conn <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tsdbr.conn"</span>, <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -59,22 +59,35 @@
     <dl><dt>check_limits</dt>
 <dd><p>A flag indicating whether to check if corrected values
 outside the lower and upper limits are coded as erroneous.</p></dd>
+
+
 <dt>check_period</dt>
 <dd><p>A flag indicating whether to check if the periods are
 valid.</p></dd>
+
+
 <dt>check_gaps</dt>
 <dd><p>A flag indicating whether to check if there are any gaps in
 the data given the period.</p></dd>
+
+
 <dt>check_triads</dt>
 <dd><p>A flag indicating whether to check if triads are consistent.</p></dd>
+
+
 <dt>fix</dt>
 <dd><p>A flag indicating whether to fix any problems</p></dd>
+
+
 <dt>conn</dt>
 <dd><p>An object of class SQLiteConnection.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A flag indicating whether or not the database passed the checks (or was fixed)</p>
+    
+
+<p>A flag indicating whether or not the database passed the checks (or was fixed)</p>
     </div>
 
   </div>
@@ -89,7 +102,7 @@ the data given the period.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
