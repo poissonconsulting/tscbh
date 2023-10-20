@@ -1,5 +1,6 @@
 process_meta <- function(ele, utc_offset) {
   x <- ele$meta
+  x <- iconv(x, "UTF-8", "UTF-8", sub='')
   
   station <- grep("#REXCHANGE.+", x, useBytes = TRUE, value = TRUE)
   station <- sub("#REXCHANGE", "", station, useBytes = TRUE)

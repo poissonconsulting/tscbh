@@ -61,7 +61,7 @@ doctor_triad <- function(triad, fix, conn) {
     return(data.frame(Station = character(0),
                       inconsistent = numeric(0),
                       stringsAsFactors = FALSE))    
-  } else if(fix) ts_add_data(data = triad1, resolution = "replace")
+  } else if(fix) ts_add_data(data = triad1, resolution = "replace", conn = conn)
   data.frame(Station = triad[1],
              inconsistent = nrow(triad1),
              stringsAsFactors = FALSE)
