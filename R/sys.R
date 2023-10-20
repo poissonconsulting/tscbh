@@ -9,7 +9,7 @@
     "DAL_HG_RawHourMean",
     "DAL_TA_Raw",
     "DAL_TA_Raw_Secondary",
-    "DAL_TW_RawHourMean", 
+    "DAL_TW_Raw", 
     "DBC_QR_RawHourMean", 
     "DRL_HG_RawHourMean",
     "DRL_QR_RawHourMean", 
