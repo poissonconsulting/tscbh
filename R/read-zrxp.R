@@ -102,7 +102,7 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   meta <- c(meta, length(lines) + 1)
   
   ls <- list()
-  for (i in 1:length(dat)) {
+  for (i in seq_along(dat)) {
     ls[[i]] <- list(meta = lines[meta[i]:(dat[i] - 1)], 
                     data = lines[dat[i]:(meta[i + 1] - 1)])
   }
