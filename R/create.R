@@ -3,11 +3,13 @@
 #' @param file A string of the name of the database file.
 #' @return A connection to the database.
 #' @export
-ts_create_db <- function (file) {
-  conn <- tsdbr::ts_create_db(file = file,
-                              periods = c("day", "hour"),
-                              utc_offset = -8L)
-  
+ts_create_db <- function(file) {
+  conn <- tsdbr::ts_create_db(
+    file = file,
+    periods = c("day", "hour"),
+    utc_offset = -8L
+  )
+
   DBI::dbExecute(conn, "CREATE TABLE Triad (
     Triad INTEGER PRIMARY KEY,
     Child  TEXT NOT NULL UNIQUE,

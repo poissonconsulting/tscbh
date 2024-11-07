@@ -12,7 +12,7 @@ add <- function(data, table, conn) {
 }
 
 is_even <- function(x) {
-  x %% 2 == 0 
+  x %% 2 == 0
 }
 
 is_odd <- function(x) {
@@ -27,21 +27,23 @@ punctuate <- function(x, qualifier = "or") {
   chk_string(qualifier)
   if (is.logical(x) || is.integer(x) || is.numeric(x)) {
     x <- as.character(x)
-  } else
+  } else {
     x <- paste0("'", as.character(x), "'")
-  if (length(x) == 1)
+  }
+  if (length(x) == 1) {
     return(x)
+  }
   n <- length(x)
   paste(paste(x[-n], collapse = ", "), qualifier, x[n])
 }
 
 plural <- function(x, n = 1L, end = "") {
   chk_string(x)
-  
+
   chk_whole_number(n)
   chk_gte(n)
   n <- as.integer(n)
-  
+
   chk_string(end)
   paste0(x, ifelse(n != 1L, "s", ""), end)
 }
