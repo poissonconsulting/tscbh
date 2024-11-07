@@ -16,12 +16,12 @@ Imports:
     chk,
     DBI,
     dttr2,
+    knitr,
     lubridate,
     readxl,
     utils
 Suggests: 
     covr,
-    knitr,
     testthat,
     tibble,
     rmarkdown
