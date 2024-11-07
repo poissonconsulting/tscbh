@@ -19,6 +19,7 @@ Imports:
     knitr,
     lubridate,
     readxl,
+    rlang,
     utils
 Suggests: 
     covr,
