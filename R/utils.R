@@ -49,8 +49,6 @@ plural <- function(x, n = 1L, end = "") {
 }
 
 as_tibble <- function(data) {
-  if (requireNamespace("tibble", quietly = TRUE)) {
-    data <- tibble::as_tibble(data)
-  }
-  data
+  rlang::check_installed("tibble")
+  tibble::as_tibble(data)
 }
