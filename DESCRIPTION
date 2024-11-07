@@ -13,17 +13,17 @@ License: MIT + file LICENSE
 Depends: 
     tsdbr
 Imports: 
-    DBI,
     chk,
+    DBI,
     dttr2,
     lubridate,
     readxl,
     utils
 Suggests: 
     covr,
+    knitr,
     testthat,
     tibble,
-    knitr,
     rmarkdown
 Remotes: 
   poissonconsulting/chk,
