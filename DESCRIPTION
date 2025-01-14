@@ -36,3 +36,4 @@ ByteCompile: true
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Config/Needs/website: poissonconsulting/poissontemplate
