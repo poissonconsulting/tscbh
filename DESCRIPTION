@@ -4,7 +4,7 @@ Title: Columbia Basin Hydrological Database
 Description: Populates, maintains and queries an 
   SQLite database of hydrological time series data for the Columbia Basin.
 Authors@R: c(
-    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("cre", "aut"),
+    person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7683-4592")),
     person("Evan", "Amies-Galonski", , "evan@poissonconsulting.ca", role = "ctb",
            comment = c(ORCID = "0000-0003-1096-2089"))
