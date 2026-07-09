@@ -10,7 +10,9 @@ ts_create_db <- function(file) {
     utc_offset = -8L
   )
 
-  DBI::dbExecute(conn, "CREATE TABLE Triad (
+  DBI::dbExecute(
+    conn,
+    "CREATE TABLE Triad (
     Triad INTEGER PRIMARY KEY,
     Child  TEXT NOT NULL UNIQUE,
     Parent1 TEXT NOT NULL UNIQUE,
@@ -23,6 +25,7 @@ ts_create_db <- function(file) {
     FOREIGN KEY (Child) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Parent1) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (Parent2) REFERENCES Station (Station) ON UPDATE CASCADE ON DELETE CASCADE
-    );")
+    );"
+  )
   conn
 }

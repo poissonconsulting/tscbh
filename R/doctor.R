@@ -1,12 +1,17 @@
 doctor_triad <- function(triad, fix, conn) {
   triad <- c(triad$Child, triad$Parent1, triad$Parent2)
 
-  span <- DBI::dbGetQuery(conn, paste0(
-    "SELECT Station, MIN(DateTimeData) AS Start, MAX(DateTimeData) AS End
+  span <- DBI::dbGetQuery(
+    conn,
+    paste0(
+      "SELECT Station, MIN(DateTimeData) AS Start, MAX(DateTimeData) AS End
     FROM Data
-    WHERE Station ", in_commas(triad), "
+    WHERE Station ",
+      in_commas(triad),
+      "
     GROUP BY Station"
-  ))
+    )
+  )
 
   span$Start <- as.POSIXct(span$Start, tz = "Etc/GMT+8")
   span$End <- as.POSIXct(span$End, tz = "Etc/GMT+8")
@@ -52,7 +57,9 @@ doctor_triad <- function(triad, fix, conn) {
   na1 <- !na0 & !na2
 
   inconsistent <- (na1 & !is.na(triad1$Corrected)) |
-    (na0 & (is.na(triad1$Corrected) | triad1$Corrected != triad2$Corrected + triad3$Corrected)) |
+    (na0 &
+      (is.na(triad1$Corrected) |
+        triad1$Corrected != triad2$Corrected + triad3$Corrected)) |
     (na0 & triad1$Status < pmax(triad2$Status, triad3$Status))
 
   triad1$Corrected[na0] <- triad2$Corrected[na0] + triad3$Corrected[na0]
@@ -68,7 +75,9 @@ doctor_triad <- function(triad, fix, conn) {
       inconsistent = numeric(0),
       stringsAsFactors = FALSE
     ))
-  } else if (fix) ts_add_data(data = triad1, resolution = "replace", conn = conn)
+  } else if (fix) {
+    ts_add_data(data = triad1, resolution = "replace", conn = conn)
+  }
   data.frame(
     Station = triad[1],
     inconsistent = nrow(triad1),
@@ -82,12 +91,14 @@ doctor_triad <- function(triad, fix, conn) {
 #' @param check_triads A flag indicating whether to check if triads are consistent.
 #' @return A flag indicating whether or not the database passed the checks (or was fixed)
 #' @export
-ts_doctor_db <- function(check_limits = TRUE,
-                         check_period = TRUE,
-                         check_gaps = TRUE,
-                         check_triads = TRUE,
-                         fix = FALSE,
-                         conn = getOption("tsdbr.conn", NULL)) {
+ts_doctor_db <- function(
+  check_limits = TRUE,
+  check_period = TRUE,
+  check_gaps = TRUE,
+  check_triads = TRUE,
+  fix = FALSE,
+  conn = getOption("tsdbr.conn", NULL)
+) {
   flag <- tsdbr::ts_doctor_db(
     check_limits = check_limits,
     check_period = check_period,
@@ -106,7 +117,9 @@ ts_doctor_db <- function(check_limits = TRUE,
     triads <- do.call("rbind", triads)
     if (nrow(triads)) {
       message(
-        "the following stations ", ifelse(fix, "had", "have"), " inconsistent triads:\n",
+        "the following stations ",
+        ifelse(fix, "had", "have"),
+        " inconsistent triads:\n",
         paste0(utils::capture.output(triads), collapse = "\n")
       )
     }
