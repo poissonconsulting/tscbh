@@ -26,9 +26,17 @@ ts_read_bch <- function(file = "tscbh.xls") {
   data <- data[which(colnames(data) == "Hour"):ncol(data)]
   class <- vapply(data, function(x) class(x)[1], "")
   posix <- which(class == "POSIXct")
-  if (!length(posix)) stop("data must have at least column with Date values after 'Hour'", call. = FALSE)
+  if (!length(posix)) {
+    stop(
+      "data must have at least column with Date values after 'Hour'",
+      call. = FALSE
+    )
+  }
   if (ncol(data) == posix[length(posix)]) {
-    stop("data must have at least column after the last column with Date values", call. = FALSE)
+    stop(
+      "data must have at least column after the last column with Date values",
+      call. = FALSE
+    )
   }
   datas <- list()
   for (i in seq_along(posix)) {

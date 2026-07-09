@@ -6,13 +6,23 @@ process_meta <- function(ele, utc_offset) {
   station <- sub("#REXCHANGE", "", station, useBytes = TRUE)
   station <- sub("\\|\\*\\|.+", "", station, useBytes = TRUE)
 
-  if (!length(station) || length(station) > 1L || !station %in% .station_lookup$station) {
+  if (
+    !length(station) ||
+      length(station) > 1L ||
+      !station %in% .station_lookup$station
+  ) {
     station <- grep("TSPATH", x, useBytes = TRUE, value = TRUE)
     station <- sub(".*TSPATH\\/08N\\/", "", station)
     station <- sub("\\|\\*\\|.*", "", station)
     station <- gsub("\\/", "_", station)
 
-    if (!length(station) || length(station) > 1L || !station %in% .station_lookup$station_alt) stop("Cannot parse station name from file meta data.")
+    if (
+      !length(station) ||
+        length(station) > 1L ||
+        !station %in% .station_lookup$station_alt
+    ) {
+      stop("Cannot parse station name from file meta data.")
+    }
 
     station <- .station_lookup$station[station == .station_lookup$station_alt]
   }
@@ -52,12 +62,15 @@ process_data <- function(ele, utc_offset) {
   x <- matrix(x, nrow = nrow, ncol = ncol, byrow = T)
   x <- as.data.frame(x)
 
-  if (identical(ncol(x), 2L)) x$Status_BCH <- NA_integer_
+  if (identical(ncol(x), 2L)) {
+    x$Status_BCH <- NA_integer_
+  }
 
   colnames(x) <- c("DateTime", "Recorded", "Status_BCH")
 
   x$DateTime <- as.character(x$DateTime)
-  x$DateTime <- as.POSIXct(x$DateTime,
+  x$DateTime <- as.POSIXct(
+    x$DateTime,
     tz = ts_utc_offset_to_tz(utc_offset),
     format = "%Y%m%d%H%M%S"
   )
@@ -97,7 +110,9 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
   meta <- grep("#REXCHANGE", lines, useBytes = TRUE)
   meta2 <- grep("#ZRXPVERSION", lines, useBytes = TRUE)
 
-  if (length(meta2)) meta <- meta2
+  if (length(meta2)) {
+    meta <- meta2
+  }
 
   dat <- grep("#LAYOUT\\(.+\\)\\|\\*\\|", lines, useBytes = TRUE) + 1
 
@@ -122,7 +137,11 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
       x$meta$Station
     })
     lack <- unlist(lack)
-    warning("the following stations lack data: ", punctuate(lack), call. = FALSE)
+    warning(
+      "the following stations lack data: ",
+      punctuate(lack),
+      call. = FALSE
+    )
     ls[bol] <- NULL
   }
 
@@ -132,15 +151,22 @@ ts_read_zrxp <- function(file = "tscbh.zrxp", utc_offset = -8L) {
     grepl("secondary", tolower(x$meta$Station))
   })
 
-  if (any(sec)) ls <- ls[-which(sec)]
+  if (any(sec)) {
+    ls <- ls[-which(sec)]
+  }
 
   ls <- lapply(ls, process_data, utc_offset = utc_offset)
   ls <- lapply(ls, merge_meta_data)
 
   data <- do.call("rbind", ls)
 
-  data$Status <- ordered("reasonable", c("reasonable", "questionable", "erroneous"))
-  data$Status[!is.na(data$Status_BCH) & data$Status_BCH %in% c(55, 200)] <- "questionable"
+  data$Status <- ordered(
+    "reasonable",
+    c("reasonable", "questionable", "erroneous")
+  )
+  data$Status[
+    !is.na(data$Status_BCH) & data$Status_BCH %in% c(55, 200)
+  ] <- "questionable"
   data <- data[c("Station", "DateTime", "Recorded", "Status")]
   data <- data[order(data$Station, data$DateTime), ]
   row.names(data) <- NULL

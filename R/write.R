@@ -44,7 +44,8 @@
 #' @return An invisible copy of saved data.
 #' @export
 ts_write_csv <- function(data, file = "tsdbr.csv") {
-  check_data(data,
+  check_data(
+    data,
     values = list(
       Station = "",
       DateTime = Sys.time()

@@ -6,7 +6,12 @@
 #' @inheritParams tsdbr::ts_disconnect_db
 #' @return A data frame of the imported triad.
 #' @export
-ts_add_triad <- function(child, parent1, parent2, conn = getOption("tsdbr.conn", NULL)) {
+ts_add_triad <- function(
+  child,
+  parent1,
+  parent2,
+  conn = getOption("tsdbr.conn", NULL)
+) {
   chk_string(child)
   chk_string(parent1)
   chk_string(parent2)
@@ -27,7 +32,8 @@ ts_add_triad <- function(child, parent1, parent2, conn = getOption("tsdbr.conn",
 #' @return The imported triad data.
 #' @export
 ts_add_triads <- function(triads, conn = getOption("tsdbr.conn", NULL)) {
-  check_data(triads,
+  check_data(
+    triads,
     values = list(
       Child = "",
       Parent1 = "",
@@ -35,7 +41,6 @@ ts_add_triads <- function(triads, conn = getOption("tsdbr.conn", NULL)) {
     ),
     nrow = TRUE
   )
-
 
   triads <- triads[c("Child", "Parent1", "Parent2")]
 
